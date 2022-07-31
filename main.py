@@ -10,5 +10,5 @@ json_text = {
 json_dump = json.dumps(json_text)
 json_object = json.loads(json_dump)
 
-print(json_object["messages"][1])
+print(json_object["messages"][0])
 
