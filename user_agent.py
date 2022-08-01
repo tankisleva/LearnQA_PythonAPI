@@ -1,60 +1,65 @@
-from typing import List
-
 import pytest
 import requests
-import json
 
 
 class TestUserAgents:
-    #     user_agents = [
-    #         (
-    #             "Mozilla/5.0 (Linux; U; Android 4.0.2; en-us; Galaxy Nexus Build/ICL53F) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"),
-    #         (
-    #             "Mozilla/5.0 (iPad; CPU OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.77 Mobile/15E148 Safari/604.1"),
-    #         ("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"),
-    #         (
-    #             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36 Edg/91.0.100.0"),
-    #         (
-    #             "Mozilla/5.0 (iPad; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1")
-    #     ]
-    agents = [
-        ("agent1", "agent2", "agent3"),
-        ("Mobile1", "mobile2", "mobile3"),
+
+    expectedResults = [
+        {"platform": "Mobile", "browser": "No", "device": "Android"},
+        {"platform": "Mobile", "browser": "Chrome", "device": "iOS"},
+        {"platform": "Googlebot", "browser": "Unknown", "device": "Unknown"},
+        {"platform": "Web", "browser": "Chrome", "device": "No"},
+        {"platform": "Mobile", "browser": "No", "device": "iPhone"}
     ]
 
-    # browsers = [("No"),
-    #             ("Chrome"),
-    #             ("Unknown"),
-    #             ("Chrome"),
-    #             ("No")]
+    user_agents = [
+        (
+            "Mozilla/5.0 (Linux; U; Android 4.0.2; en-us; Galaxy Nexus Build/ICL53F) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"),
+        (
+            "Mozilla/5.0 (iPad; CPU OS 13_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/91.0.4472.77 Mobile/15E148 Safari/604.1"),
+        ("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"),
+        (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36 Edg/91.0.100.0"),
+        (
+            "Mozilla/5.0 (iPad; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1")
+    ]
 
-    # devices = [("Android"),
-    #            ("iOS"),
-    #            ("Unknown"),
-    #            ("No"),
-    #            ("iPhone")]
 
-    # data_users = [user_agents, platforms, browsers, devices]
 
-    # json_text = [
-    #     "agents": {
-    #         ["agent1", "agent2", "agent3"],
-    # }
-    #     "platforms": [
-    #         ["platform1", "platform2", "platform3"],
-    #     ]
-    # ]
+    @pytest.mark.parametrize('user_agent', user_agents)
+    def test_user_agents(self, user_agent):
+        data = {"User-Agent": user_agent}
+        url = "https://playground.learnqa.ru/ajax/api/user_agent_check"
+        response = requests.get(url, headers=data)
+        json_text = response.json()
+        print(json_text["user_agent"])
+        if json_text["user_agent"] == self.user_agents[0]:
+              assert json_text["platform"] == self.expectedResults[0]["platform"]
+              assert json_text["browser"] == self.expectedResults[0]["browser"]
+              assert json_text["device"] == self.expectedResults[0]["device"]
+        if json_text["user_agent"] == self.user_agents[1]:
+              assert json_text["platform"] == self.expectedResults[1]["platform"]
+              assert json_text["browser"] == self.expectedResults[1]["browser"]
+              assert json_text["device"] == self.expectedResults[1]["device"]
+        if json_text["user_agent"] == self.user_agents[2]:
+            assert json_text["platform"] == self.expectedResults[2]["platform"]
+            assert json_text["browser"] == self.expectedResults[2]["browser"]
+            assert json_text["device"] == self.expectedResults[2]["device"]
+        if json_text["user_agent"] == self.user_agents[3]:
+            assert json_text["platform"] == self.expectedResults[3]["platform"]
+            assert json_text["browser"] == self.expectedResults[3]["browser"]
+            assert json_text["device"] == self.expectedResults[3]["device"]
+        if json_text["user_agent"] == self.user_agents[4]:
+            assert json_text["platform"] == self.expectedResults[4]["platform"]
+            assert json_text["browser"] == self.expectedResults[4]["browser"]
+            assert json_text["device"] == self.expectedResults[4]["device"]
 
-    # print(json_text["agents"][0])
 
-    @pytest.mark.parametrize('agent', agents[0])
-    @pytest.mark.parametrize('platform', agents[1])
-    def test_user_agents(self, agent, platform):
-        # data = {"User-Agent": user_agent}
-        # url = "https://playground.learnqa.ru/ajax/api/user_agent_check"
-        # response = requests.get(url, headers=data)
-        print(f"{agent} относится к {platform}")
 
-        # actual_platform = json_text["platform"]
-        # actual_browser = json_text["browser"]
-        # actual_device = json_text["device"]
+
+
+
+
+
+
+
