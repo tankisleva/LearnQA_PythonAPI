@@ -10,13 +10,15 @@ class TestUserGet(BaseCase):
     expected_fields = ["email", "firstName", "lastName"]
     expected_fields1 = ["username", "email", "firstName", "lastName"]
 
-    @allure.description("This test get details as not authorize user")
+    @allure.link('https://www.youtube.com/watch?v=Su5p2TqZxKU', name='Click me')
+    @allure.title("This test get details as not authorize user")
     def test_get_user_details_not_auth(self):
         response = MyRequests.get("/user/2")
 
         Assertions.assert_json_has_no_keys(response, self.expected_fields)
 
-    @allure.description("This test get details as the same authorize user")
+    @allure.testcase("https://www.youtube.com/watch?v=Su5p2TqZxKU", 'Test case title')
+    @allure.title("This test get details as the same authorize user")
     def test_get_user_details_auth_as_same_user(self):
         data = {
             'email': 'vinkotov@example.com',
@@ -36,7 +38,8 @@ class TestUserGet(BaseCase):
 
         Assertions.assert_json_has_keys(response2, self.expected_fields1)
 
-    @allure.description("This test get details as authorize user")
+    @allure.testcase("https://www.youtube.com/watch?v=Su5p2TqZxKU", 'Second test case title')
+    @allure.title("This test get details as authorize user")
     def test_get_user_details_auth_as_another_user(self):
         data = {
             'email': 'vinkotov@example.com',
