@@ -65,7 +65,5 @@ class TestUserRegister(BaseCase):
         data = self.prepare_registration_data()
         data[field] = None
         response = MyRequests.post("/user/", data=data)
-        print(response.status_code)
-        print(response.content)
         assert response.content.decode("utf-8") == f"The following required params are missed: {field}"
         Assertions.assert_code_status(response, 400)
