@@ -10,15 +10,15 @@ passwords = tree.xpath(locator)
 
 for password in passwords:
     password = str(password).strip()
-    print(password)
     response1 = requests.post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework",
                              data={"login": "super_admin", "password": password})
     cookie = response1.cookies.values()
     response2 = requests.get("https://playground.learnqa.ru/ajax/api/check_auth_cookie",
                              params={"auth_cookie ": cookie})
-    if response2.text != "You are NOT authorized":
-        print(response2.text)
-        print(password)
+    print(response2.text)
+    # if response2.text != "You are NOT authorized":
+    #     print(response2.text)
+    #     print(password)
 
 
 
